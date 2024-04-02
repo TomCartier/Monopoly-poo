@@ -7,13 +7,15 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 
 use App\Classes\CardProperty;
+use App\Services\BtpService;
 
 final class CardPropertyTest extends TestCase
 {
 
     public function testGetColor(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
         $color = $property->getColor();
         // la couleur de la propriété générée est bien de type "string"
         $this->assertTrue(gettype($color) == "string");
@@ -21,7 +23,8 @@ final class CardPropertyTest extends TestCase
 
     public function testGetName(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
         $name = $property->getName();
         // le nom de la propriété générée est bien de type "string"
         $this->assertTrue(gettype($name) == "string");
@@ -29,7 +32,8 @@ final class CardPropertyTest extends TestCase
 
     public function testGetPrice(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
         $price = $property->getPrice();
         // le prix de la propriété générée est bien de type "integer" et >= 1
         $this->assertTrue(gettype($price) == "integer");
@@ -38,7 +42,8 @@ final class CardPropertyTest extends TestCase
 
     public function testGetRent(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
         $rent = $property->getRent();
         // le prix du loyer de la propriété générée est bien de type "integer" et >= 1
         $this->assertTrue(gettype($rent) == "integer");
@@ -47,7 +52,8 @@ final class CardPropertyTest extends TestCase
 
     public function testSetRent(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
 
         // Définir le nouveau loyer
         $property->setRent(5000);
@@ -60,12 +66,18 @@ final class CardPropertyTest extends TestCase
 
     public function testAddHouse(): void
     {
-        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000);
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        // Verif que le nombre de maison de base vaut 0
+        $initialHouses = $property->getHouses();
+        $this->assertEquals(0, $initialHouses);
 
         // Ajout d'une maison
         $property->addHouse();
 
-        // Vérifier si une maison a été ajoutée
-        // Vérifier qu'on ne puisse pas ajouter plus de 4 maisons au total
+        // Vérification qu'une maison a bien été ajoutée
+        $houses = $property->getHouses();
+        $this->assertEquals($initialHouses + 1, $houses);
     }
 }

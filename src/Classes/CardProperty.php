@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Interfaces\InterfaceCard;
 use App\Config\Config;
+use App\Services\BtpService;
 
 class CardProperty implements InterfaceCard
 {
@@ -14,8 +15,9 @@ class CardProperty implements InterfaceCard
     private int $houses;
     private int $hotels;
     private $owner;
+    private BtpService $BtpService;
 
-    public function __construct($color, $name, $price, $rent)
+    public function __construct($color, $name, $price, $rent, BtpService $BtpService)
     {
         $this->color = $color;
         $this->name = $name;
@@ -24,6 +26,7 @@ class CardProperty implements InterfaceCard
         $this->houses = 0;
         $this->hotels = 0;
         $this->owner = null;
+        $this->BtpService = $BtpService;
     }
 
     public function getColor(): string
@@ -63,16 +66,17 @@ class CardProperty implements InterfaceCard
 
     public function addHouse()
     {
-        if ($this->houses < 4) {
-            $this->houses++;
-        }
+        $this->BtpService->addHouse($this);
     }
 
     public function removeHouse()
     {
-        if ($this->houses > 0) {
-            $this->houses--;
-        }
+        $this->BtpService->removeHouse($this);
+    }
+
+    public function setHouses(int $houses)
+    {
+        $this->houses = $houses;
     }
 
     public function getHouses()
@@ -82,17 +86,12 @@ class CardProperty implements InterfaceCard
 
     public function addHotel()
     {
-        if ($this->houses == 4 && $this->hotels == 0) {
-            $this->houses = 0;
-            $this->hotels = 1;
-        }
+        $this->BtpService->addHotel($this);
     }
 
     public function removeHotel()
     {
-        if ($this->hotels == 1) {
-            $this->hotels = 0;
-        }
+        $this->BtpService->removeHotel($this);
     }
 
     public function getHotels()
