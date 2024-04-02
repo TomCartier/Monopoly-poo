@@ -94,6 +94,11 @@ class CardProperty implements InterfaceCard
         $this->BtpService->removeHotel($this);
     }
 
+    public function setHotel(int $hotel)
+    {
+        $this->hotels = $hotel;
+    }
+
     public function getHotels()
     {
         return $this->hotels;

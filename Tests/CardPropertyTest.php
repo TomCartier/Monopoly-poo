@@ -80,4 +80,39 @@ final class CardPropertyTest extends TestCase
         $houses = $property->getHouses();
         $this->assertEquals($initialHouses + 1, $houses);
     }
+
+    public function testremoveHouse(): void
+    {
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        $property->addHouse();
+
+        // Verif que le nombre de maison de base > 0
+        $initialHouses = $property->getHouses();
+        $this->assertTrue(0 < $initialHouses);
+
+        // Supression d'une maison
+        $property->removeHouse();
+
+        // Vérification qu'une maison a bien été retirée
+        $houses = $property->getHouses();
+        $this->assertEquals($initialHouses - 1, $houses);
+    }
+
+    public function testAddHotel(): void
+    {
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        // Verif que le nombre de maison de base vaut 4
+        $property->setHouses(4);
+        $initialHouses = $property->getHouses();
+        $this->assertEquals(4, $initialHouses);
+
+        // Vérification qu'une maison a bien été ajoutée
+        $hotel = $property->addHotel();
+        $nbHotels = $property->getHotels();
+        $this->assertEquals(1, $nbHotels);
+    }
 }
