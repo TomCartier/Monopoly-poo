@@ -46,7 +46,20 @@ class CardProperty implements InterfaceCard
 
     public function getRent(): int
     {
-        return $this->rent;
+        // 1 maison : loyer x2
+        // 2 maisons : loyer x3
+        // 3 maisons : loyer x4
+        // 4 maisons : loyer x5
+        // 1 hôtel : loyer x10
+
+        $rent = $this->rent;
+
+        if ($this->getHotels() == 1) {
+            $rent = $this->rent * 10;
+        } elseif ($this->getHouses() != 0) {
+            $rent = $this->rent * ($this->getHouses() + 1);
+        }
+        return $rent;
     }
 
     public function setRent($rent)
@@ -54,15 +67,25 @@ class CardProperty implements InterfaceCard
         $this->rent = $rent;
     }
 
-    // public function setOwner($owner)
-    // {
-    //     $this->owner = $owner;
-    // }
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
 
-    // public function getOwner()
-    // {
-    //     return $this->owner;
-    // }
+    public function removeOwner(Player $owner): void
+    {
+        // Vérifier si le joueur est effectivement le propriétaire de la propriété
+        if ($this->owner === $owner) {
+            $this->owner = null; // Retirer le propriétaire en affectant null
+        } else {
+            throw new \RuntimeException('Vous ne possédez pas cette propriété.');
+        }
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
 
     public function addHouse()
     {

@@ -7,6 +7,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 
 use App\Classes\CardProperty;
+use App\Classes\Player;
 use App\Services\BtpService;
 
 final class CardPropertyTest extends TestCase
@@ -138,5 +139,38 @@ final class CardPropertyTest extends TestCase
         // Vérification que les 4 maisons ont bien été remises
         $nbHouses = $property->getHouses();
         $this->assertEquals(4, $nbHouses);
+    }
+
+    public function testSetOwner(): void
+    {
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        $player = new Player('Tom');
+
+        // Ajout du joueur sur la propriété
+        $property->setOwner($player);
+
+        // Vérifier que le joueur à bien été ajouté sur la propriété
+        $updatedOwner = $property->getOwner();
+        $this->assertSame($player, $updatedOwner);
+    }
+
+    public function testRemoveOwner(): void
+    {
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        $player = new Player('Tom');
+
+        // Ajout du joueur sur la propriété
+        $property->setOwner($player);
+
+        // Retrait du joueur sur la propriété
+        $property->removeOwner($player);
+
+        // Vérifier que le joueur à bien été ajouté sur la propriété
+        $updatedOwner = $property->getOwner();
+        $this->assertSame(null, $updatedOwner);
     }
 }
