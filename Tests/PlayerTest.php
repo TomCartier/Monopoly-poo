@@ -75,4 +75,24 @@ final class PlayerTest extends TestCase
         // Vérifier que la liste des propriétés contient une propriété de plus
         $this->assertCount(count($initialProperties) + 1, $updatedProperties);
     }
+
+    public function testRemoveProperties(): void
+    {
+        $player = new Player('Tom');
+
+        $BtpService = new BtpService();
+        $property = new CardProperty('Dark blue', 'Rue de la Paix', 400000000, 1000, $BtpService);
+
+        // Ajout de la propriété sur le joueur
+        $player->addProperty($property);
+        $initialProperties = $player->getProperties();
+
+        // Vérifier que la propriété à bien été retirée
+        $player->removeProperty($property);
+        $updatedProperties = $player->getProperties();
+        $this->assertNotContains($property, $updatedProperties);
+
+        // Vérifier que la liste des propriétés contient une propriété de moins
+        $this->assertCount(count($initialProperties) - 1, $updatedProperties);
+    }
 }

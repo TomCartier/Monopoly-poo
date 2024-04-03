@@ -52,4 +52,15 @@ class Player implements InterfacePlayer
     {
         $this->properties[] = $property;
     }
+
+    public function removeProperty(CardProperty $property): void
+    {
+        $index = array_search($property, $this->properties, true);
+
+        if ($index !== false) {
+            unset($this->properties[$index]);
+        } else {
+            throw new \RuntimeException('Vous ne possédez pas cette propriété.');
+        }
+    }
 }
