@@ -37,7 +37,10 @@ class BtpService
     public function removeHotel(CardProperty $property)
     {
         if ($property->getHotels() == 1) {
-            $property->removeHotel();
+            $property->setHotel(0);
+            $property->setHouses(4);
+        } else {
+            throw new \RuntimeException("Le nombre minimal d'hôtel est déjà atteint sur cette propriété.");
         }
     }
 }
