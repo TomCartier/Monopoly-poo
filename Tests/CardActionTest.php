@@ -7,6 +7,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 
 use App\Classes\CardAction;
+use App\Classes\Player;
 
 final class CardActionTest extends TestCase
 {
@@ -35,18 +36,19 @@ final class CardActionTest extends TestCase
         $this->assertTrue(gettype($description) == "string");
     }
 
-    // public function testExecuteAction(): void
-    // {
-    //     $player = new Player();
-    //     $board = new Board();
+    public function testExecuteAction(): void
+    {
+        $player = new Player('Tom');
+        // $board = new Board();
 
-    //     $initalBalancePlayer = $player->getBalance();
+        $initalBalancePlayer = $player->getBalance();
 
-    //     $actionCard = new CardAction('Chance', 'Pay', 'Rendez-vous à la Rue de la Paix');
+        $actionCard = new CardAction('Chance', 'Pay', 1000);
 
-    //     $actionCard->executeAction($player, $board);
+        // $actionCard->executeAction($player, $board);
+        $actionCard->executeAction($player);
 
-    //     // Vérifier que le solde du joueur a été correctement déduit de l'action
-    //     $this->assertEquals($initalBalancePlayer - $actionCard->getTotalPay(), $player->getBalance());
-    // }
+        // Vérifier que le solde du joueur a été correctement déduit de l'action
+        $this->assertEquals($initalBalancePlayer - $actionCard->getDescription(), $player->getBalance());
+    }
 }

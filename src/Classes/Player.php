@@ -40,7 +40,7 @@ class Player implements InterfacePlayer
             throw new \RuntimeException('Solde insuffisant');
         }
 
-        $this->balance = $newBalance;
+        $this->balance -= $amount;
     }
 
     public function getProperties(): array

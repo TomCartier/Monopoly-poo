@@ -11,7 +11,7 @@ class CardAction implements InterfaceCard
 {
     private string $typeCard;
     private string $typeAction;
-    private string $description;
+    private $description;
 
     public function __construct($typeCard, $typeAction, $description)
     {
@@ -38,23 +38,24 @@ class CardAction implements InterfaceCard
         return $this->typeAction;
     }
 
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
 
     // public function executeAction(Player $player, Board $board)
-    // {
-    //     switch ($this->type) {
-    //         case 'pay':
-    //             $player->deductMoney(100); // Le joueur doit payer 100
-    //             break;
-    //         case 'collect':
-    //             $player->addMoney(50); // Le joueur gagne 100
-    //             break;
-    //         case 'move':
-    //             $board->movePlayer($player, 5); // Le joueur se déplace sur une certaine case
-    //             break;
-    //     }
-    // }
+    public function executeAction(Player $player)
+    {
+        switch ($this->typeAction) {
+            case 'pay':
+                $player->removeMoney($this->description);
+                break;
+            case 'collect':
+                $player->addMoney($this->description);
+                break;
+                // case 'move':
+                //     $board->movePlayer($player, $this->description);
+                //     break;
+        }
+    }
 }
